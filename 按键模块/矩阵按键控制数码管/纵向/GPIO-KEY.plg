@@ -1,0 +1,26 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\½¯Õñ·É\Desktop\ÑµÁ·ÎÄ¼þ¼Ð\GPIO-KEY.uvproj
+Project File Date:  10/20/2017
+
+<h2>Output:</h2>
+Build target 'Target 1'
+linking...
+Program Size: data=11.0 xdata=0 code=187
+creating hex file from "GPIO-KEY"...
+"GPIO-KEY" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling GPIO-KEY.C...
+linking...
+Program Size: data=11.0 xdata=0 code=160
+creating hex file from "GPIO-KEY"...
+"GPIO-KEY" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling GPIO-KEY.C...
+linking...
+Program Size: data=11.0 xdata=0 code=187
+creating hex file from "GPIO-KEY"...
+"GPIO-KEY" - 0 Error(s), 0 Warning(s).

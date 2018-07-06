@@ -1,0 +1,7 @@
+"STARTUP.obj",
+"lcd.obj",
+"main.obj",
+"temp.obj",
+"DS1302.obj" 
+TO "Template" 
+RAMSIZE(256) 

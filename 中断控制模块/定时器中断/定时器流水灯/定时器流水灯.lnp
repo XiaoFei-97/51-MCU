@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"定时器流水灯.obj" 
+TO "定时器流水灯" 
+RAMSIZE(256) 

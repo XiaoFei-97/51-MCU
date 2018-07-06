@@ -1,0 +1,147 @@
+C51 COMPILER V9.00   MAIN                                                                  12/20/2017 20:46:43 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          
+   2          #include"lcd.h"
+   3          #include"temp.h"
+   4          #include"DS1302.h"
+   5          
+   6          void Timer0Init()
+   7          {
+   8   1          TMOD |= 0X01;       //¶¨Ê±Æ÷0¹¤×÷·½Ê½1
+   9   1              TH0 = 0XFC;             //¶¨Ê±1us
+  10   1              TL0 = 0X18;
+  11   1              EA = 1;           //Ê¹ÄÜÖÐ¶Ï
+  12   1              ET0 = 1;          //Ê¹ÄÜ¶¨Ê±Æ÷0ÖÐ¶Ï
+  13   1              TR0 =1;           //¿ªÆô¶¨Ê±Æ÷0ÖÐ¶Ï
+  14   1      }
+  15          void LcdDisplay(int temp)        //lcdÏÔÊ¾
+  16          {
+  17   1          
+  18   1              unsigned char datas[] = {0, 0, 0, 0, 0}; //¶¨ÒåÊý×é
+  19   1              float tp;  
+  20   1              if(temp< 0)                             //µ±ÎÂ¶ÈÖµÎª¸ºÊý
+  21   1              {
+  22   2                      LcdWriteCom(0xc6);              //Ð´µØÖ· 80±íÊ¾³õÊ¼µØÖ·
+  23   2                  LcdWriteData('-');    //ÏÔÊ¾¸º           
+  24   2                      temp=temp-1;             //ÒòÎª¶ÁÈ¡µÄÎÂ¶ÈÊÇÊµ¼ÊÎÂ¶ÈµÄ²¹Âë£¬ËùÒÔ¼õ1£¬ÔÙÈ¡·´Çó³öÔ­Âë
+  25   2                      temp=~temp;
+  26   2                      tp=temp;
+  27   2                      temp=tp*0.0625*100+0.5; 
+  28   2                      //ÁôÁ½¸öÐ¡Êýµã¾Í*100£¬+0.5ÊÇËÄÉáÎåÈë£¬ÒòÎªCÓïÑÔ¸¡µãÊý×ª»»ÎªÕûÐÍµÄÊ±ºò°ÑÐ¡Êýµã
+  29   2                      //ºóÃæµÄÊý×Ô¶¯È¥µô£¬²»¹ÜÊÇ·ñ´óÓÚ0.5£¬¶ø+0.5Ö®ºó´óÓÚ0.5µÄ¾ÍÊÇ½ø1ÁË£¬Ð¡ÓÚ0.5µÄ¾Í
+  30   2                      //ËãÓÉÏ0.5£¬»¹ÊÇÔÚÐ¡ÊýµãºóÃæ¡£
+  31   2              }
+  32   1              else
+  33   1              {                       
+  34   2                      tp=temp;//ÒòÎªÊý¾Ý´¦ÀíÓÐÐ¡ÊýµãËùÒÔ½«ÎÂ¶È¸³¸øÒ»¸ö¸¡µãÐÍ±äÁ¿
+  35   2                      //Èç¹ûÎÂ¶ÈÊÇÕýµÄÄÇÃ´£¬ÄÇÃ´ÕýÊýµÄÔ­Âë¾ÍÊÇ²¹ÂëËü±¾Éí
+  36   2                      temp=tp*0.0625*100+0.5; 
+  37   2                      //ÁôÁ½¸öÐ¡Êýµã¾Í*100£¬+0.5ÊÇËÄÉáÎåÈë£¬ÒòÎªCÓïÑÔ¸¡µãÊý×ª»»ÎªÕûÐÍµÄÊ±ºò°ÑÐ¡Êýµã
+  38   2                      //ºóÃæµÄÊý×Ô¶¯È¥µô£¬²»¹ÜÊÇ·ñ´óÓÚ0.5£¬¶ø+0.5Ö®ºó´óÓÚ0.5µÄ¾ÍÊÇ½ø1ÁË£¬Ð¡ÓÚ0.5µÄ¾Í
+  39   2                      //Ëã¼ÓÉÏ0.5£¬»¹ÊÇÔÚÐ¡ÊýµãºóÃæ¡£
+  40   2              }
+  41   1              datas[0] = temp / 10000;
+  42   1              datas[1] = temp % 10000 / 1000;
+  43   1              datas[2] = temp % 1000 / 100;
+  44   1              datas[3] = temp % 100 / 10;
+  45   1              LcdWriteCom(0xca);                //Ð´µØÖ· 80±íÊ¾³õÊ¼µØÖ·
+  46   1              LcdWriteData('0'+datas[1]); //Ê®Î»
+  47   1              LcdWriteData('0'+datas[2]); //¸öÎ» 
+  48   1              LcdWriteData('.');              //ÏÔÊ¾ ¡®.¡¯
+  49   1              LcdWriteData('0'+datas[3]); //ÏÔÊ¾Ð¡Êýµã
+  50   1              LcdWriteData(0xdf);
+  51   1              LcdWriteData('C');       
+  52   1      }
+  53          void TimeDisplay()
+  54          {
+  55   1          LcdWriteCom(0x82);
+C51 COMPILER V9.00   MAIN                                                                  12/20/2017 20:46:43 PAGE 2   
+
+  56   1          LcdWriteData('0'+TIME[6]/16);                               //Äê
+  57   1              LcdWriteData('0'+(TIME[6]&0x0f));                                
+  58   1              LcdWriteData('-');
+  59   1          LcdWriteData('0'+TIME[4]/16);                               //ÔÂ
+  60   1              LcdWriteData('0'+(TIME[4]&0x0f));                                
+  61   1              LcdWriteData('-');      
+  62   1          LcdWriteData('0'+TIME[3]/16);                               //ÈÕ
+  63   1              LcdWriteData('0'+(TIME[3]&0x0f));
+  64   1              LcdWriteCom(0xc1);
+  65   1          LcdWriteData('0'+TIME[2]/16);                               //Ê±
+  66   1              LcdWriteData('0'+(TIME[2]&0x0f));                                
+  67   1              LcdWriteData(':');
+  68   1              LcdWriteData('0'+TIME[1]/16);                           //·Ö
+  69   1              LcdWriteData('0'+(TIME[1]&0x0f));       
+  70   1              LcdWriteData(':');
+  71   1              LcdWriteData('0'+TIME[0]/16);                           //Ãë
+  72   1              LcdWriteData('0'+(TIME[0]&0x0f));
+  73   1              switch(TIME[5])                                                                                                                    //ÐÇÆÚÏÔÊ¾
+  74   1              {
+  75   2                 case(1):LcdWriteCom(0x8b);
+  76   2                          LcdWriteData('M');LcdWriteData('o');LcdWriteData('n');break;
+  77   2                 case(2):LcdWriteCom(0x8b);
+  78   2                          LcdWriteData('T');LcdWriteData('u');LcdWriteData('e');break;
+  79   2                 case(3):LcdWriteCom(0x8b);
+  80   2                          LcdWriteData('W');LcdWriteData('e');LcdWriteData('n');break;
+  81   2                 case(4):LcdWriteCom(0x8b);
+  82   2                          LcdWriteData('T');LcdWriteData('h');LcdWriteData('u');break;
+  83   2                 case(5):LcdWriteCom(0x8b);
+  84   2                          LcdWriteData('F');LcdWriteData('r');LcdWriteData('i');break;
+  85   2                 case(6):LcdWriteCom(0x8b);
+  86   2                          LcdWriteData('S');LcdWriteData('a');LcdWriteData('t');break;
+  87   2                 case(7):LcdWriteCom(0x8b);
+  88   2                          LcdWriteData('S');LcdWriteData('u');LcdWriteData('n');break;
+  89   2              }
+  90   1      }
+  91           void main()
+  92          {       
+  93   1          Ds18b20Init();
+  94   1          Timer0Init();
+  95   1          Ds1302Init();
+  96   1              LcdInit();              
+  97   1              LcdWriteCom(0x80);      
+  98   1              LcdWriteData('2');
+  99   1              LcdWriteCom(0x81);      
+ 100   1              LcdWriteData('0');
+ 101   1              LcdWriteCom(0xcd);
+ 102   1              LcdWriteData('C');
+ 103   1              while(1)
+ 104   1              {
+ 105   2                Ds1302ReadTime();
+ 106   2              }
+ 107   1      }
+ 108          void Timer0() interrupt 1
+ 109          {
+ 110   1          uint time;
+ 111   1          TH0 = 0XFC;
+ 112   1              TL0 = 0X18;
+ 113   1              time++;
+ 114   1              if(time==100)      //¶¨Ê±10ms           
+ 115   1              {
+ 116   2                  time = 0;
+ 117   2                      LcdDisplay(Ds18b20ReadTemp());    //1602¶ÁÈ¡ÎÂ¶È 
+C51 COMPILER V9.00   MAIN                                                                  12/20/2017 20:46:43 PAGE 3   
+
+ 118   2                  TimeDisplay(); 
+ 119   2              }
+ 120   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    727    ----
+   CONSTANT SIZE    =      5    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      13
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

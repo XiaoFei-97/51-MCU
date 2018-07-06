@@ -1,0 +1,14 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\蒋振飞\Desktop\8X8LED点阵\“爱心”显示\爱心点阵.uvproj
+Project File Date:  10/22/2017
+
+<h2>Output:</h2>
+Build target 'Target 1'
+linking...
+Program Size: data=25.0 xdata=0 code=249
+creating hex file from "爱心点阵"...
+"爱心点阵" - 0 Error(s), 0 Warning(s).

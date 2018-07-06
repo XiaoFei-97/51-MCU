@@ -1,0 +1,77 @@
+C51 COMPILER V9.00   _®ÐÄµãÕ_                                                              10/22/2017 15:18:59 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE _®ÐÄµãÕ_
+OBJECT MODULE PLACED IN °®ÐÄµãÕó.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE °®ÐÄµãÕó.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include"reg51.h"
+   2          #include"intrins.h"
+   3          
+   4          typedef unsigned char u8;
+   5          typedef unsigned int u16;
+   6          
+   7          sbit SER=P3^4;
+   8          sbit RCLK=P3^5;
+   9          sbit SRCLK=P3^6;
+  10          
+  11          void delay(u16 i)
+  12          {
+  13   1          while(i--);
+  14   1      }
+  15          
+  16          u8 ledduan[]={0x61,0x91,0x49,0x25,0x25,0x49,0x91,0x61};
+  17          u8 ledwei[]={0x7f,0xbf,0xdf,0xef,0xf7,0xfb,0xfd,0xfe};
+  18          
+  19          void hc595sendbyte(u8 dat)
+  20          {
+  21   1         u8 a;
+  22   1         SRCLK=0;
+  23   1         RCLK=0;
+  24   1         for(a=0;a<8;a++)
+  25   1         {
+  26   2                SER=dat>>7;
+  27   2                dat<<=1;
+  28   2                SRCLK=1;
+  29   2                _nop_();
+  30   2                _nop_();
+  31   2                SRCLK=0;
+  32   2         }
+  33   1         RCLK=1;
+  34   1         _nop_();
+  35   1         _nop_();
+  36   1         RCLK=0;
+  37   1      }
+  38          
+  39          void main()
+  40          {
+  41   1        u8 i;
+  42   1        while(1)
+  43   1        {
+  44   2              for(i=0;i<8;i++)
+  45   2              {
+  46   3                              P0=ledwei[i];
+  47   3                              hc595sendbyte(ledduan[i]);
+  48   3                              delay(100);
+  49   3                              hc595sendbyte(0x00);
+  50   3              }
+  51   2        }
+  52   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+C51 COMPILER V9.00   _®ÐÄµãÕ_                                                              10/22/2017 15:18:59 PAGE 2   
+
+   CODE SIZE        =     85    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     16    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

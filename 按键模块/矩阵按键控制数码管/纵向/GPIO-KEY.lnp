@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"GPIO-KEY.obj" 
+TO "GPIO-KEY" 
+RAMSIZE(256) 

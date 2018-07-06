@@ -1,0 +1,14 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+E:\51单片机实验\LCD_1602模块\DS1302时钟LCD1602显示（可以按键设置时钟）\pro.uvproj
+Project File Date:  11/07/2017
+
+<h2>Output:</h2>
+Build target 'Target 1'
+linking...
+Program Size: data=19.0 xdata=0 code=925
+creating hex file from "pro"...
+"pro" - 0 Error(s), 0 Warning(s).

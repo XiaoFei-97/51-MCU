@@ -1,0 +1,105 @@
+C51 COMPILER V9.00   定时器流水灯                                                          10/27/2017 22:00:15 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE 定时器流水灯
+OBJECT MODULE PLACED IN 定时器流水灯.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 定时器流水灯.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include"reg51.h"
+   2          
+   3          typedef unsigned char u8;
+   4          typedef unsigned int u16;
+   5          
+   6          u16 time;
+   7          u8 i,j;
+   8          
+   9          sbit LSA=P2^2;
+  10          sbit LSB=P2^3;
+  11          sbit LSC=P2^4;
+  12          
+  13          u8 code smgduan[17]={0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,
+  14                                                  0x7f,0x6f,0x77,0x7c,0x39,0x5e,0x79,0x71};
+  15          
+  16          void display()
+  17          {
+  18   1        LSA=1;
+  19   1        LSB=1;
+  20   1        LSC=1;
+  21   1        P0=smgduan[i];
+  22   1        i++;
+  23   1        if(i==9) i=0;
+  24   1      }
+  25          
+  26          
+  27          
+  28          void Timer0Init()
+  29          {
+  30   1         TMOD=0x01;
+  31   1         TH0=0xfc;
+  32   1         TL0=0x18;
+  33   1         EA=1;
+  34   1         ET0=1;
+  35   1         TR0=1;
+  36   1      }
+  37          
+  38          
+  39          
+  40          void main()
+  41          {
+  42   1        
+  43   1         Timer0Init();
+  44   1         while(1)
+  45   1         {
+  46   2            if(time==1000)
+  47   2               {
+  48   3                
+  49   3                      time=0;
+  50   3                      display();
+  51   3      
+  52   3                          switch(j)
+  53   3                              {
+  54   4                                 case(0):P2=0x7f;break;
+  55   4                                 case(1):P2=0xbf;break;
+C51 COMPILER V9.00   定时器流水灯                                                          10/27/2017 22:00:15 PAGE 2   
+
+  56   4                                 case(2):P2=0xdf;break;
+  57   4                                 case(3):P2=0xef;break;
+  58   4                                 case(4):P2=0xf7;break;
+  59   4                                 case(5):P2=0xfb;break;
+  60   4                                 case(6):P2=0xfd;break;
+  61   4                                 case(7):P2=0xfe;break;
+  62   4                              }
+  63   3                              j++;                    
+  64   3                          if(j==8) j=0;
+  65   3                }
+  66   2               }
+  67   1              
+  68   1      }
+  69          
+  70          
+  71          void Timer0() interrupt 1
+  72          {
+  73   1               TH0=0xfc;
+  74   1           TL0=0x18;
+  75   1               time++;
+  76   1              
+  77   1      
+  78   1      
+  79   1      
+  80   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    169    ----
+   CONSTANT SIZE    =     17    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
